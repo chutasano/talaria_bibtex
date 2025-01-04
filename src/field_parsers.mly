@@ -35,6 +35,7 @@ open Field_types
 
 name:
 	| lastname=WORD COMMA firstname=WORD  { {firstname; lastname} }
+        | firstname=WORD lastname=WORD { {firstname; lastname} }
 
 %public path:
 	| w=WORD EOF {[w]}

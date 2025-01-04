@@ -68,7 +68,7 @@ let () =
       entry *? year @@ decoratedN "Year" int;
       entry *? journal @@  decoratedN "Journal" string;
       entry *? volume @@  decoratedN "Volume" int;
-      entry *? number @@  decoratedN "Number" int;
+      entry *? number @@  decoratedN "Number" string;
       entry *? pages @@
       (fun ppf -> function Loc k -> fp ppf "\t Pages: [%d] \n" k
               | Interv(k,l) -> fp ppf "\t Pages: [%d-%d] \n" k l

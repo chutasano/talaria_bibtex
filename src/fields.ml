@@ -32,13 +32,17 @@ let kind = named_field ~name:"kind" Record.{
                 | Talk -> "talk"
                 | Book -> "book"
                 | Poster -> "poster"
+                | Software -> "software"
+                | MastersThesis -> "mastersthesis"
                    );
-             from= ( function
+             from= ( fun s -> match (String.lowercase_ascii s) with
                 | "article" -> Article
                 | "inproceedings" -> Inproceedings
                 | "talk" -> Talk
                 | "book" -> Book
                 | "poster" -> Poster
+                | "software" -> Software
+                | "mastersthesis" -> MastersThesis
                 | s  -> raise @@ Unknown_attribute ("kind",s)  )
            }
 
@@ -59,7 +63,7 @@ let journal = str_field ~name:"journal"
 let booktitle=str_field ~name:"booktitle"
 
 let volume = int_field ~name:"volume"
-let number = int_field ~name:"number"
+let number = str_field ~name:"number"
 let pages =
   named_field ~name:"pages" Record.{
       to_ = (function Loc n -> string_of_int n | Interv (k,l) ->
@@ -95,6 +99,8 @@ let abstract = str_field ~name:"abstract"
 let location = str_field  ~name:"location"
 let conference = str_field  ~name:"conference"
 
+let note = str_field ~name:"note"
+
 let get_uid entry = match entry.%{uid.f} with None -> assert false | Some x -> x
 let get_kind entry = match entry.%{kind.f} with
   | None -> assert false
@@ -127,6 +133,7 @@ let default_keys =
   |>> booktitle
   |>> location
   |>> conference
+  |>> note
 
 let check_entry keydtb raw_entry =
   let add key value e =

@@ -41,7 +41,7 @@ val year : int named_field
 val journal : string named_field
 val booktitle : string named_field
 val volume : int named_field
-val number : int named_field
+val number : string named_field
 val pages : pages named_field
 val doi : string list named_field
 val arxiv : string named_field
@@ -51,6 +51,7 @@ val state : state named_field
 val abstract : string named_field
 val location : string named_field
 val conference : string named_field
+val note : string named_field
 
 (* This is the key entry for untyped keys: all key entry that cannot fit a
     known typed key are recorded inside the {!Database.t} map  *)

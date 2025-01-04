@@ -5,7 +5,7 @@ module type self = sig
 
   type name = {lastname : string; firstname : string}
 
-  type kind = Article | Inproceedings | Book | Talk | Poster
+  type kind = Article | Inproceedings | Book | Talk | Poster | Software | MastersThesis
 
   type state = Published | Accepted | Submitted | WIP
   (** Publication status *)

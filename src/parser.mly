@@ -1,6 +1,11 @@
 %token <string> TEXT
 %token <string> KIND
 %token LCURL COMMA RCURL EQUAL EOF
+
+
+%nonassoc LCURL RCURL
+%left COMMA EQUAL
+
 %type < Fields.raw_entry Fields.Database.t> main
 %start main
 
@@ -23,6 +28,10 @@ properties:
 	  { Fields.Database.add (String.trim key) p e }
 	| key=TEXT EQUAL LCURL p=rtext RCURL opt_comma
 	  { Fields.Database.singleton (String.trim key) p }
+        | key=TEXT EQUAL p=rtext_nobrk COMMA e=properties
+	  { Fields.Database.add (String.trim key) p e }
+        | key=TEXT EQUAL p=rtext_nobrk opt_comma
+	  { Fields.Database.singleton (String.trim key) p }
 
 opt_comma:
 	| 	{()}
@@ -30,6 +39,11 @@ opt_comma:
 
 rtext:
 	| s=TEXT {s}
-	| s=TEXT EQUAL rs=rtext {s^"="^rs}
-	| s1=TEXT COMMA rs=rtext  {s1 ^","^ rs }
-	| LCURL s1=TEXT RCURL rs=rtext {s1 ^ rs }
+	| rs1=rtext EQUAL rs2=rtext {rs1 ^ "=" ^ rs2}
+	| rs1=rtext COMMA rs2=rtext  {rs1 ^ "," ^ rs2 }
+	| rs1=rtext LCURL rs2=rtext RCURL rs3=rtext {rs1 ^ rs2 ^ rs3 }
+	| LCURL rs=rtext RCURL { rs }
+
+(* TODO not sure if this captures all non-bracket wrapped values -- might need to support = and , for example *)
+rtext_nobrk:
+        | s=TEXT {s}
