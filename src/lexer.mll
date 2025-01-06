@@ -4,8 +4,8 @@ open Parser
 
 let ops = ['{' '}' ',' '=']
 let space= [' ' '\t']
-let nops = [^ '{' '}' ',' '=']
-let bnops=nops # space # ['\n']
+let nops = [^ '{' '}' ',' '=' '\n']
+let bnops=nops # space
 
 rule main= parse
 | space {main lexbuf} 

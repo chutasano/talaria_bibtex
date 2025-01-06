@@ -46,6 +46,37 @@ let kind = named_field ~name:"kind" Record.{
                 | s  -> raise @@ Unknown_attribute ("kind",s)  )
            }
 
+let month = named_field ~name:"month" Record.{
+  to_ = (function
+    | 1 -> "jan"
+    | 2 -> "feb"
+    | 3 -> "mar"
+    | 4 -> "apr"
+    | 5 -> "may"
+    | 6 -> "jun"
+    | 7 -> "jul"
+    | 8 -> "aug"
+    | 9 -> "sep"
+    | 10 -> "oct"
+    | 11 -> "nov"
+    | 12 -> "dec"
+    | n -> raise @@ Unknown_attribute ("mo", string_of_int n) );
+  from = (fun s -> match (String.lowercase_ascii s) with
+    | "1" -> 1    | "jan" -> 1  | "january" -> 1
+    | "2" -> 2    | "feb" -> 2  | "february" -> 2
+    | "3" -> 3    | "mar" -> 3  | "march" -> 3
+    | "4" -> 4    | "apr" -> 4  | "april" -> 4
+    | "5" -> 5    | "may" -> 5  (* | "may" -> 5 *)
+    | "6" -> 6    | "jun" -> 6  | "june" -> 6
+    | "7" -> 7    | "jul" -> 7  | "july" -> 7
+    | "8" -> 8    | "aug" -> 8  | "august" -> 8
+    | "9" -> 9    | "sep" -> 9  | "september" -> 9
+    | "10" -> 10  | "oct" -> 10 | "october" -> 10
+    | "11" -> 11  | "nov" -> 11 | "november" -> 11
+    | "12" -> 12  | "dec" -> 12 | "december" -> 12
+    | s -> raise @@ Unknown_attribute ("month", s) )
+}
+
 let title = str_field ~name:"title"
 
 let authors =
@@ -121,6 +152,7 @@ let default_keys =
   |>> authors
   |>> journal
   |>> year
+  |>> month
   |>> volume
   |>> number
   |>> pages

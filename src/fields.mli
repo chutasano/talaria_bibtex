@@ -38,6 +38,7 @@ val kind : kind named_field
 val title : string named_field
 val authors : name list named_field
 val year : int named_field
+val month : int named_field
 val journal : string named_field
 val booktitle : string named_field
 val volume : int named_field
